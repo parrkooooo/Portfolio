@@ -1,0 +1,24 @@
+{
+  "name": "Ahmer Shah | Portfolio",
+  "short_name": "Ahmer Shah",
+  "description": "Portfolio of Ahmer Shah, Software Engineering Student & Full-Stack Developer",
+  "start_url": "index.html",
+  "icons": [
+    {
+      "src": "web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0a0f14",
+  "background_color": "#0a0f14",
+  "display": "standalone",
+  "orientation": "portrait"
+}
