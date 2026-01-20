@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://ahmershahdev.github.io/Portfolio/sitemap.xml
