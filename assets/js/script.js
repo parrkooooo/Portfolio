@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
+let renderer;
 (function () {
     const container = document.getElementById('three-bg-container');
     if (!container) return;
@@ -10,11 +11,15 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
     scene.fog = new THREE.Fog(0x000000, 5, 45);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-    const renderer = new THREE.WebGLRenderer({ 
+    renderer = new THREE.WebGLRenderer({ 
         antialias: window.innerWidth > 768, 
         alpha: true, 
         powerPreference: "high-performance" 
     });
+
+     $('.offcanvas-body .nav-link').on('click', function() {
+    if(renderer) renderer.toneMappingExposure = 3.0; 
+});
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
@@ -285,10 +290,6 @@ $(document).ready(function () {
         });
     }
 
-    $('.offcanvas-body .nav-link').on('click', function() {
-    if(renderer) renderer.toneMappingExposure = 3.0; 
-});
-
     const cursorCanvas = document.getElementById('cursor-canvas');
 if (cursorCanvas) {
     const ctx = cursorCanvas.getContext('2d');
@@ -330,3 +331,50 @@ if (cursorCanvas) {
 };
 });
 
+const cards = document.querySelectorAll('.project-card');
+let ticking = false;
+
+const applyRotation = (card, x, y) => {
+    const rect = card.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (centerY - (y - rect.top)) / 10;
+    const rotateY = ((x - rect.left) - centerX) / 10;
+
+    window.requestAnimationFrame(() => {
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+    });
+};
+
+const resetRotation = (card) => {
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+};
+
+cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        applyRotation(card, e.clientX, e.clientY);
+    });
+
+    card.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        applyRotation(card, touch.clientX, touch.clientY);
+    }, { passive: false });
+
+    card.addEventListener('mouseleave', () => resetRotation(card));
+    card.addEventListener('touchend', () => resetRotation(card));
+});
+
+window.addEventListener('deviceorientation', (event) => {
+    if (!ticking && window.innerWidth < 768) {
+        window.requestAnimationFrame(() => {
+            let rX = (event.beta - 45) / 3;
+            let rY = event.gamma / 3;
+            cards.forEach(c => {
+                c.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg)`;
+            });
+            ticking = false;
+        });
+        ticking = true;
+    }
+});

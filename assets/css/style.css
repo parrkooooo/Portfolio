@@ -124,13 +124,6 @@ button:active,
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu-btn-text:hover {
-  color: #fff;
-  background: #0ff0fc;
-  box-shadow: 0 0 15px #0ff0fc;
-  letter-spacing: 5px;
-}
-
 .navbar-toggler:focus {
   box-shadow: none !important;
 }
@@ -144,11 +137,17 @@ button:active,
   font-weight: 500;
   letter-spacing: 1px;
   padding: 1rem 0;
-  color: #fff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: inline-block; 
+  width: auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateX(-20px);
+}
+
+.offcanvas-body .nav-link.active {
+  color: #0ff0fc !important;
+  border-bottom: 1px solid #0ff0fc !important;
 }
 
 .offcanvas.show .nav-link {
@@ -164,14 +163,44 @@ button:active,
 .offcanvas.show .nav-item:nth-child(6) .nav-link { transition-delay: 0.35s; }
 .offcanvas.show .nav-item:nth-child(7) .nav-link { transition-delay: 0.4s; }
 
-.offcanvas-body .nav-link:hover {
-  color: #0ff0fc !important;
-  padding-left: 15px;
-}
-
 .offcanvas-backdrop.show {
   backdrop-filter: blur(4px);
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+#projects .row {
+  perspective: 1000px;
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease; 
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  background: #1a1a1a; 
+}
+
+.project-card .project-img, 
+.project-card h2, 
+.project-card .btn,
+.project-card .badge {
+  transform: translateZ(40px);
+}
+
+.project-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 200%; height: 200%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
+  transform: translate(-100%, -100%);
+  transition: transform 0.2s ease-out;
+  pointer-events: none;
+}
+
+.project-card:hover::after, .project-card:active::after {
+  transform: translate(-10%, -10%);
 }
 
 .cyber-spinner {
@@ -427,18 +456,36 @@ html {
   margin: 0 0.5rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  border-bottom: 2px solid transparent;
+  position: relative;
+  border-bottom: none !important;
 }
 
 .nav-link:hover {
   color: #0ff0fc !important;
-  border-bottom: 2px solid rgba(15, 240, 252, 0.3);
+ text-shadow: 0 0 8px rgba(15, 240, 252, 0.6);
 }
 
 .navbar-nav .nav-link.active {
   color: #0ff0fc !important;
   font-weight: bold;
-  border-bottom: 2px solid #0ff0fc;
+  text-shadow: 0 0 8px rgba(15, 240, 252, 0.6);
+}
+
+.navbar-nav .nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #0ff0fc;
+  box-shadow: 0 0 10px #0ff0fc;
+  animation: underline-grow 0.4s ease-out;
+}
+
+@keyframes underline-grow {
+  from { width: 0; left: 50%; }
+  to { width: 100%; left: 0; }
 }
 
 .hero-section {
