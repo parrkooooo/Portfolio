@@ -20,9 +20,11 @@ body {
 }
 
 @media (hover: hover) and (pointer: fine) {
+
   .btn:hover,
   .nav-link:hover,
   .social-icon:hover,
+  .link:hover,
   a:hover,
   button:hover {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g fill='none' stroke='%2300ff41' stroke-width='2'><line x1='16' y1='4' x2='16' y2='28'/><line x1='4' y1='16' x2='28' y2='16'/><circle cx='16' cy='16' r='8' stroke-dasharray='4'/></g></svg>") 16 16, pointer !important;
@@ -37,10 +39,33 @@ body {
   button:active {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><g fill='none' stroke='%23ff003c' stroke-width='2'><circle cx='16' cy='16' r='12'/><circle cx='16' cy='16' r='2' fill='%23ff003c'/></g></svg>") 16 16, pointer !important;
   }
+
+  .project-card {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease;
+  }
+
+  .project-card::after {
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-card:hover::after {
+    transform: translate(0%, 0%);
+  }
+
+  .neon-border span:hover {
+    color: #0ff0fc;
+    transition: color 0.3s ease;
+  }
 }
 
 @media (hover: none) {
-  body, .btn, .nav-link, .social-icon, a, button {
+
+  body,
+  .btn,
+  .nav-link,
+  .social-icon,
+  a,
+  button {
     cursor: auto !important;
   }
 
@@ -57,7 +82,30 @@ body {
     background-color: transparent !important;
     text-decoration: none !important;
   }
+
+  #about .neon-border {
+    --shine-x: 50% !important;
+    --shine-y: 50% !important;
+    transition: none !important;
+  }
+
+  .project-card {
+    transition: none !important;
+  }
+
+  .project-card::after {
+    content: none !important;
+  }
+
+  .neon-border span,
+  .neon-border span:hover,
+  .neon-border span:active {
+    color: inherit !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
+
 #loader-wrapper {
   position: fixed;
   top: 0;
@@ -235,7 +283,21 @@ body {
   background-color: rgba(10, 15, 20, 0.85);
   border: 1px solid rgba(0, 255, 252, 0.2);
   border-radius: 10px;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease;
+  transition: border-color 0.5s ease;
+}
+
+.project-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0) 100%);
+  transform: translate(-100%, -100%);
+  pointer-events: none;
+  z-index: 1;
+  transition: none;
 }
 
 .project-card .p-4 {
@@ -279,26 +341,10 @@ body {
 .project-card h2,
 .project-card .btn,
 .project-card .badge {
-  transform: translateZ(50px);
+  transform: translateZ(30px);
 }
 
-.project-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0) 100%);
-  transform: translate(-100%, -100%);
-  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 1;
-}
 
-.project-card:hover::after {
-  transform: translate(0%, 0%);
-}
 
 .cyber-spinner {
   position: relative;
