@@ -167,18 +167,40 @@ $(document).ready(function () {
     const quotes = ["Initializing the inevitable...", "Calculated risks. High rewards.", "Reality is a simulation. Master the code.", "The Titan awakens in the silence."];
     $quote.text(quotes[Math.floor(Math.random() * quotes.length)]);
     
-    setTimeout(() => { $bar.css('width', '25%'); $percentText.text('25%'); }, 1000);
-    setTimeout(() => { $bar.css('width', '70%'); $percentText.text('70%'); }, 2500);
-    setTimeout(() => { 
-        $bar.css('width', '100%'); 
-        $percentText.text('100%'); 
+    let loadWidth = 0;
+    const loadingInterval = setInterval(() => {
+        loadWidth += Math.random() * 12 + 5;
+        if (loadWidth >= 96) {
+            loadWidth = 96;
+            clearInterval(loadingInterval);
+        }
+        if ($bar.length) $bar.css('width', loadWidth + '%');
+        if ($percentText.length) $percentText.text(Math.floor(loadWidth) + '%');
+    }, 60);
+
+    const finishLoading = () => {
+        clearInterval(loadingInterval);
+        if ($bar.length) $bar.stop().css('width', '100%');
+        if ($percentText.length) $percentText.text('100%');
+        updateSectionCache();
         setTimeout(() => {
-            $wrapper.fadeOut(1000, function () { 
-                $(this).remove(); 
-                $('html, body').css({ 'overflow-y': 'auto', 'overflow-x': 'hidden' });
-            });
-        }, 800);
-    }, 3500);
+            if ($wrapper.length) {
+                $wrapper.fadeOut(600, function () { 
+                    $(this).hide(); 
+                    $('html, body').css({ 'overflow-y': 'auto', 'overflow-x': 'hidden' });
+                });
+            }
+        }, 200);
+    };
+
+    const failsafe = setTimeout(() => {
+        finishLoading();
+    }, 3000);
+
+    $(window).on("load", function() {
+        clearTimeout(failsafe);
+        finishLoading();
+    });
 
     let pIdx = 0, cIdx = 0, isDeleting = false;
     function type() {
@@ -194,7 +216,7 @@ $(document).ready(function () {
     type();
 
     let sections = [];
-    const updateSectionCache = () => {
+    function updateSectionCache() {
         sections = []; 
         navBtn.each(function () {
             const targetId = $(this).attr("href");
@@ -208,9 +230,7 @@ $(document).ready(function () {
                 });
             }
         });
-    };
-
-    $(window).on("load", updateSectionCache);
+    }
     
     let resizeTimer;
     $(window).on("resize", () => {
@@ -223,9 +243,7 @@ $(document).ready(function () {
         const $section = $(sectionId);
         if ($section.length) {
             e.preventDefault();
-            $("html, body").stop().animate({ 
-                scrollTop: $section.offset().top - navHeight 
-            }, 800);
+            $("html, body").stop().animate({ scrollTop: $section.offset().top - navHeight }, 800);
             if (navbarCollapse.hasClass("show")) navbarCollapse.collapse('hide');
         }
     });
@@ -266,4 +284,45 @@ $(document).ready(function () {
             finally { submitBtn.disabled = false; submitBtn.innerHTML = "Send Message"; }
         });
     }
+
+    const cursorCanvas = document.getElementById('cursor-canvas');
+if (cursorCanvas) {
+    const ctx = cursorCanvas.getContext('2d');
+    let mouse = { x: 0, y: 0 }, dots = [], totalDots = 12, friction = 0.4, isVisible = false;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (!isTouchDevice) {
+        for (let i = 0; i < totalDots; i++) dots.push({ x: 0, y: 0 });
+        window.addEventListener('mousemove', (e) => { isVisible = true; mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { isVisible = false; });
+
+        function animateCursor() {
+            ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+            if (isVisible) {
+                let x = mouse.x, y = mouse.y;
+                dots.forEach((dot, index) => {
+                    dot.x += (x - dot.x) * friction; dot.y += (y - dot.y) * friction;
+                    const color = index % 2 === 0 ? '#0ff0fc' : '#00ff41';
+                    ctx.globalAlpha = 1 - (index / totalDots);
+                    ctx.beginPath(); ctx.fillStyle = color;
+                    const size = (totalDots - index) * 1.1;
+                    ctx.shadowBlur = 10; ctx.shadowColor = color;
+                    ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2); ctx.fill();
+                    if (index > 0) {
+                        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+                        ctx.moveTo(dots[index - 1].x, dots[index - 1].y); ctx.lineTo(dot.x, dot.y); ctx.stroke();
+                    }
+                    x = dot.x; y = dot.y;
+                });
+            }
+            requestAnimationFrame(animateCursor);
+        }
+        window.addEventListener('resize', () => { cursorCanvas.width = window.innerWidth; cursorCanvas.height = window.innerHeight; });
+        cursorCanvas.width = window.innerWidth; cursorCanvas.height = window.innerHeight;
+        animateCursor();
+    } else {
+        cursorCanvas.style.display = 'none';
+    }
+};
 });
+
