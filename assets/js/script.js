@@ -99,8 +99,8 @@ let renderer;
     });
 
     function handleOrientation(event) {
-        let x = event.beta; 
-        let y = event.gamma; 
+        let x = event.beta;
+        let y = event.gamma;
 
         if (x === null || y === null) return;
 
@@ -183,10 +183,10 @@ let renderer;
                 const hoverY = -5.0 + Math.sin(time * 2.5) * 0.2;
                 ironMan.position.y = hoverY;
                 chestLight.position.set(0, hoverY + 6.5, 1.5);
-                
+
                 ironMan.rotation.y = THREE.MathUtils.lerp(ironMan.rotation.y, targetY, 0.15);
                 ironMan.rotation.x = THREE.MathUtils.lerp(ironMan.rotation.x, targetX, 0.15);
-                
+
                 chestLight.intensity = (20 + Math.sin(time * 5) * 8) * transitionFactor * (1 - contactTransition);
             }
         }
@@ -219,8 +219,14 @@ $(document).ready(function () {
     $('html, body').css({ 'overflow-x': 'hidden', 'overflow-y': 'hidden', 'scroll-behavior': 'smooth' });
 
     const phrases = ["SWE Student", "Full-Stack Web Developer", "SQL Developer", "WordPress Developer", "PHP Developer", "Laravel Developer", "SEO"];
-    const quotes = ["Initializing the inevitable...", "Calculated risks. High rewards.", "Reality is a simulation. Master the code.", "The Titan awakens in the silence."];
-    
+    const quotes = [
+        "A cage went in search of a bird. — Franz Kafka",
+        "Man is sometimes extraordinarily, passionately, in love with suffering. — Fyodor Dostoevsky",
+        "He who has a why to live can bear almost any how. — Friedrich Nietzsche",
+        "It is better to be feared than loved, if one cannot be both. — Niccolò Machiavelli"
+    ];
+
+
     if ($quote.length) $quote.text(quotes[Math.floor(Math.random() * quotes.length)]);
 
     let loadWidth = 0;
@@ -391,7 +397,7 @@ const applyRotation = (card, x, y) => {
     const rotateY = ((x - rect.left) - centerX) / 10;
 
     window.requestAnimationFrame(() => {
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        card.style.transform = `perspective(1000px) translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
     });
 };
 
@@ -499,15 +505,15 @@ if (textElement && trigger) {
     trigger.addEventListener('touchstart', scramble, { passive: true });
 }
 
-(function() {
+(function () {
     const aboutBox = document.querySelector('#about .neon-border');
     if (!aboutBox) return;
 
     const update3D = (x, y) => {
-      
+
         aboutBox.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
-        
-        const shine = aboutBox.querySelector('::after'); 
+
+        const shine = aboutBox.querySelector('::after');
         aboutBox.style.setProperty('--shine-x', `${y * 2}%`);
         aboutBox.style.setProperty('--shine-y', `${-x * 2}%`);
     };
