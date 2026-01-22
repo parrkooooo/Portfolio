@@ -60,7 +60,7 @@ let renderer;
     loader.setDRACOLoader(dracoLoader);
 
     let ironMan = null, targetX = 0, targetY = 0;
-    loader.load('assets/character/iron_man.glb', (gltf) => {
+    loader.load('assets/blender/character/iron_man.glb', (gltf) => {
         ironMan = gltf.scene;
         ironMan.traverse(node => {
             if (node.isMesh) {
@@ -78,7 +78,7 @@ let renderer;
     });
 
     let roomModel = null;
-    loader.load('assets/background/background_room.glb', (gltf) => {
+    loader.load('assets/blender/background/background_room.glb', (gltf) => {
         roomModel = gltf.scene;
         const box = new THREE.Box3().setFromObject(roomModel);
         const size = box.getSize(new THREE.Vector3());
