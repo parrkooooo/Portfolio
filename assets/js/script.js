@@ -504,7 +504,6 @@ function initializeThreeScene() {
     let targetX = 0;
     let targetY = 0;
     
-    const tempVector = new THREE.Vector3();
     const sizeVector = new THREE.Vector3();
     const boundingBox = new THREE.Box3();
     const metalMaterialProps = { metalness: 1, roughness: 0.2 };
@@ -527,7 +526,6 @@ function initializeThreeScene() {
         ironManModel.position.set(0, -6, 0);
         chestLight.position.set(0, -5, 1.5);
         scrollGroup.add(ironManModel);
-        gltf.scene = null;
     });
 
     modelLoader.load('assets/blender/background/background_room.glb', (gltf) => {
@@ -544,7 +542,6 @@ function initializeThreeScene() {
         roomModel.scale.setScalar(scaleFactor);
         roomModel.position.y = -4;
         homeGroup.add(roomModel);
-        gltf.scene = null;
     });
 
     function updateInputPosition(x, y) {
@@ -593,9 +590,7 @@ function initializeThreeScene() {
         }, 150);
     }, { passive: true });
 
-    const rainPositionArray = rain.geometry.attributes.position.array;
-    
-    function animate(currentTime) {
+    function animate() {
         requestAnimationFrame(animate);
         
         const elapsedTime = animationClock.getElapsedTime();
@@ -623,6 +618,9 @@ function initializeThreeScene() {
         
         if (scrollGroup.visible) {
             groundMesh.position.z = Math.sin(elapsedTime * 0.5) * 2;
+            const posAttr = rain.geometry.attributes.position;
+            const rainPositionArray = posAttr.array;
+            
             for (let i = 0; i < RAIN_COUNT; i++) {
                 const yIndex = i * 3 + 1;
                 rainPositionArray[yIndex] -= rainVelocities[i];
@@ -632,7 +630,7 @@ function initializeThreeScene() {
                     rainPositionArray[yIndex + 1] = (Math.random() - 0.5) * 60;
                 }
             }
-            rain.geometry.attributes.position.needsUpdate = true;
+            posAttr.needsUpdate = true;
             
             if (ironManModel) {
                 const hoverHeight = Math.sin(elapsedTime * 2.5) * 0.3;
@@ -650,7 +648,7 @@ function initializeThreeScene() {
         renderer.render(scene, camera);
     }
     
-    animate(0);
+    animate();
     
     window.cleanupThreeScene = function() {
         [groundGeometry, rainGeometry].forEach(geo => geo?.dispose());
@@ -668,6 +666,7 @@ function initializeThreeScene() {
                 });
             }
         });
+        renderer.dispose();
         renderer.domElement.remove();
     };
 }
