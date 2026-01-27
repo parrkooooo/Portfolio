@@ -4,16 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-    script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://unpkg.com https://ahmershahdev.github.io https://www.gstatic.com https://cdn.jsdelivr.net; 
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
-    font-src 'self' data: https://fonts.gstatic.com; 
-    img-src 'self' data: blob: https://ahmershahdev.github.io; 
-    connect-src 'self' blob: https://ahmershahdev.github.io https://www.gstatic.com https://cdn.jsdelivr.net; 
-    worker-src 'self' blob:; 
-    object-src 'none'; 
-    base-uri 'self'; 
-    upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="
+default-src 'self'; 
+script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://unpkg.com https://ahmershahdev.github.io https://www.gstatic.com https://cdn.jsdelivr.net; 
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
+font-src 'self' data: https://fonts.gstatic.com; 
+img-src 'self' data: blob: https://ahmershahdev.github.io; 
+connect-src 'self' blob: https://ahmershahdev.github.io https://www.gstatic.com https://cdn.jsdelivr.net https://formspree.io; 
+worker-src 'self' blob:; 
+object-src 'none'; 
+base-uri 'self'; 
+upgrade-insecure-requests;">
+
 
   <title>Ahmer Shah | Software Engineer & Full-Stack Developer</title>
   <link rel="canonical" href="https://ahmershahdev.github.io/Portfolio/">
@@ -42,7 +44,8 @@
 
 
   <link rel="preload" href="assets/blender/character/iron_man.glb" as="fetch" crossorigin="anonymous">
-  <link rel="preload" href="https://www.gstatic.com/draco/versioned/decoders/1.5.6/draco_wasm_wrapper.js" as="script" crossorigin="anonymous">
+  <link rel="preload" href="https://www.gstatic.com/draco/versioned/decoders/1.5.6/draco_wasm_wrapper.js" as="script"
+    crossorigin="anonymous">
   <link rel="preload" href="https://www.gstatic.com/draco/versioned/decoders/1.5.6/draco_decoder.wasm" as="fetch"
     crossorigin="anonymous">
 
@@ -54,7 +57,7 @@
   <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="assets/css/all.purged.css" media="print" onload="this.media='all'">
 
-  <link rel="stylesheet" href="assets/css/style.min.css" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/style.css" fetchpriority="high">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
     media="print" onload="this.media='all'">
@@ -807,10 +810,9 @@
     </div>
   </div>
 
-
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
-  <script type="module" src="assets/js/script.min.js" defer></script>
+  <script type="module" src="assets/js/script.js" defer></script>
 </body>
 
 </html>
