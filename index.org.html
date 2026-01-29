@@ -42,13 +42,6 @@ upgrade-insecure-requests;">
   <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
-
-  <link rel="preload" href="assets/blender/character/iron_man.glb" as="fetch" crossorigin="anonymous">
-  <link rel="preload" href="https://www.gstatic.com/draco/versioned/decoders/1.5.6/draco_wasm_wrapper.js" as="script"
-    crossorigin="anonymous">
-  <link rel="preload" href="https://www.gstatic.com/draco/versioned/decoders/1.5.6/draco_decoder.wasm" as="fetch"
-    crossorigin="anonymous">
-
   <link rel="icon" type="image/x-icon" href="assets/images/favicon/favicon.ico">
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#000000">
@@ -57,7 +50,7 @@ upgrade-insecure-requests;">
   <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="assets/css/all.purged.css" media="print" onload="this.media='all'">
 
-  <link rel="stylesheet" href="assets/css/style.css" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/style.min.css" fetchpriority="high">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
     media="print" onload="this.media='all'">
@@ -167,35 +160,35 @@ upgrade-insecure-requests;">
 
       </div>
     </nav>
-
-    <div class="offcanvas offcanvas-start bg-black text-white" tabindex="-1" id="offcanvasNavbar"
-      style="width: 280px; border-right: 1px solid #0ff0fc;">
-      <div class="offcanvas-header border-bottom border-secondary">
-        <h5 class="offcanvas-title" style="color: #0ff0fc; font-weight: bold; letter-spacing: 2px;">
-          <i class="fas fa-shredder me-2"></i>SYSTEM_MENU
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link py-3" href="#home" data-bs-dismiss="offcanvas"><i
-                class="fas fa-terminal me-3"></i>Home</a></li>
-          <li class="nav-item"><a class="nav-link py-3" href="#about" data-bs-dismiss="offcanvas"><i
-                class="fas fa-user-secret me-3"></i>About</a></li>
-          <li class="nav-item"><a class="nav-link py-3" href="#education" data-bs-dismiss="offcanvas"><i
-                class="fas fa-microchip me-3"></i>Education</a></li>
-          <li class="nav-item"><a class="nav-link py-3" href="#skills" data-bs-dismiss="offcanvas"><i
-                class="fas fa-code-branch me-3"></i>Skills</a></li>
-          <li class="nav-item"><a class="nav-link py-3" href="#certificates" data-bs-dismiss="offcanvas"><i
-                class="fas fa-shield-alt me-3"></i>Certification</a></li>
-          <li class="nav-item"><a class="nav-link py-3" href="#projects" data-bs-dismiss="offcanvas"><i
-                class="fas fa-project-diagram me-3"></i>Projects</a></li>
-          <li class="nav-item"><a class="nav-link py-3" href="#contact" data-bs-dismiss="offcanvas"><i
-                class="fas fa-satellite-dish me-3"></i>Contact</a></li>
-        </ul>
-      </div>
-    </div>
   </header>
+
+  <div class="offcanvas offcanvas-start bg-black text-white" tabindex="-1" id="offcanvasNavbar"
+    style="width: 280px; border-right: 1px solid #0ff0fc;">
+    <div class="offcanvas-header border-bottom border-secondary">
+      <h5 class="offcanvas-title" style="color: #0ff0fc; font-weight: bold; letter-spacing: 2px;">
+        <i class="fas fa-shredder me-2"></i>SYSTEM_MENU
+      </h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link py-3" href="#home" data-bs-dismiss="offcanvas"><i
+              class="fas fa-terminal me-3"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="#about" data-bs-dismiss="offcanvas"><i
+              class="fas fa-user-secret me-3"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="#education" data-bs-dismiss="offcanvas"><i
+              class="fas fa-microchip me-3"></i>Education</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="#skills" data-bs-dismiss="offcanvas"><i
+              class="fas fa-code-branch me-3"></i>Skills</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="#certificates" data-bs-dismiss="offcanvas"><i
+              class="fas fa-shield-alt me-3"></i>Certification</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="#projects" data-bs-dismiss="offcanvas"><i
+              class="fas fa-project-diagram me-3"></i>Projects</a></li>
+        <li class="nav-item"><a class="nav-link py-3" href="#contact" data-bs-dismiss="offcanvas"><i
+              class="fas fa-satellite-dish me-3"></i>Contact</a></li>
+      </ul>
+    </div>
+  </div>
 
   <main>
     <section id="home" class="hero-section d-flex align-items-center reveal-visible" aria-label="Introduction">
@@ -812,7 +805,7 @@ upgrade-insecure-requests;">
 
   <script src="assets/js/jquery-3.7.1.min.js" defer></script>
   <script src="assets/js/bootstrap.bundle.min.js" defer></script>
-  <script type="module" src="assets/js/script.js" defer></script>
+  <script type="module" src="assets/js/script.min.js" defer></script>
 </body>
 
 </html>

@@ -2,14 +2,6 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
-console.log(
-    "%c %c SYED AHMER SHAH %c SYSTEM_INITIALIZED %c ",
-    "background: #00ffff; padding:5px 0;",
-    "background: #000; color: #00ffff; padding:5px 10px; font-weight: bold; border: 1px solid #00ffff;",
-    "background: #00ffff; color: #000; padding:5px 10px; font-weight: bold;",
-    "background: #00ffff; padding:5px 0;"
-);
-
 $(document).ready(function() {
     const $loadingBar = $('#loading-bar');
     const $loadPercent = $('#load-percent');
@@ -161,6 +153,18 @@ $(document).ready(function() {
         }
     }
     $navLinks.add($dropdownItems).on("click", handleNavigationClick);
+
+    // Fix aria-hidden on offcanvas when showing/hiding
+    const offcanvasElement = document.getElementById('offcanvasNavbar');
+    if (offcanvasElement) {
+        const offcanvasInstance = new bootstrap.Offcanvas(offcanvasElement);
+        offcanvasElement.addEventListener('show.bs.offcanvas', () => {
+            offcanvasElement.removeAttribute('aria-hidden');
+        });
+        offcanvasElement.addEventListener('hide.bs.offcanvas', () => {
+            offcanvasElement.setAttribute('aria-hidden', 'true');
+        });
+    }
 
     window.addEventListener('scroll', () => {
         $backToTopButton.toggleClass("show", window.scrollY > 400);
