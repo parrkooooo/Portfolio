@@ -536,10 +536,6 @@ html {
   }
 }
 
-/* ============================================
-   LAYOUT & SECTIONS
-   ============================================ */
-
 #about {
   perspective: 1500px;
 }
@@ -1830,6 +1826,13 @@ html {
   width: 1rem;
   height: 1rem;
   border-width: 0.15em;
+}
+
+.cyber-spinner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spinner-text {
