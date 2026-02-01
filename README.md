@@ -120,7 +120,7 @@ Welcome to my professional portfolio! This project showcases my journey as a Sof
 
 ## 📬 Contact
 
-- **Email:** ahmarshah170@gmail.com
+- **Email:** syedahmershahofficial@gmail.com
 - **Location:** Pakistan
 
 ## 📄 License
