@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 $(document).ready(function() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const $loadingBar = $('#loading-bar');
     const $loadPercent = $('#load-percent');
     const $dynamicQuote = $('#dynamic-quote');
@@ -100,18 +101,21 @@ $(document).ready(function() {
     });
 
     let scrollUpdateScheduled = false;
-    function updateScrollProgress() {
-        const scrollTop = window.scrollY;
+    function updateScrollProgress(scrollTop) {
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
         $scrollProgressBar.css('width', scrollPercent + '%');
-        scrollUpdateScheduled = false;
     }
 
     window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
         if (!scrollUpdateScheduled) {
             scrollUpdateScheduled = true;
-            requestAnimationFrame(updateScrollProgress);
+            requestAnimationFrame(() => {
+                updateScrollProgress(scrollTop);
+                $backToTopButton.toggleClass("show", scrollTop > 400);
+                scrollUpdateScheduled = false;
+            });
         }
     }, { passive: true });
 
@@ -155,10 +159,6 @@ $(document).ready(function() {
         });
     }
 
-    window.addEventListener('scroll', () => {
-        $backToTopButton.toggleClass("show", window.scrollY > 400);
-    }, { passive: true });
-
     function handleBackToTop(event) {
         if (event.cancelable) event.preventDefault();
         if ($backToTopButton.hasClass('firing')) return;
@@ -196,17 +196,23 @@ $(document).ready(function() {
         setTimeout(typeWriterAnimation, typingSpeed);
     }
 
-    typeWriterAnimation();
+    if (prefersReducedMotion) {
+        $typewriter.text(professionPhrases[0]);
+    } else {
+        typeWriterAnimation();
+    }
 
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('reveal-visible');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('[class*="reveal-"]').forEach((element) => revealObserver.observe(element));
+    if (!prefersReducedMotion) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('[class*="reveal-"]').forEach((element) => revealObserver.observe(element));
+    }
 
     function createSectionObserver(sectionId, className) {
         const sectionElement = document.getElementById(sectionId);
@@ -222,11 +228,13 @@ $(document).ready(function() {
         return observer;
     }
 
-    createSectionObserver('education', 'camera-view-left-active');
-    createSectionObserver('skills', 'camera-view-right-active');
-    createSectionObserver('projects', 'camera-view-up-active');
-    createSectionObserver('certificates', 'camera-view-left-active');
-    createSectionObserver('contact', 'camera-view-back-active');
+    if (!prefersReducedMotion) {
+        createSectionObserver('education', 'camera-view-left-active');
+        createSectionObserver('skills', 'camera-view-right-active');
+        createSectionObserver('projects', 'camera-view-up-active');
+        createSectionObserver('certificates', 'camera-view-left-active');
+        createSectionObserver('contact', 'camera-view-back-active');
+    }
 
     const skillObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -240,13 +248,14 @@ $(document).ready(function() {
     document.querySelectorAll('.skill-item').forEach((item) => skillObserver.observe(item));
 
     function initializeCustomCursor() {
+        if (prefersReducedMotion) return;
         const cursorCanvas = document.getElementById('cursor-canvas');
         if (!cursorCanvas || 'ontouchstart' in window || navigator.maxTouchPoints > 0) {
             if (cursorCanvas) cursorCanvas.style.display = 'none';
             return;
         }
         const cursorContext = cursorCanvas.getContext('2d', { alpha: true });
-        const cursorDots = Array.from({ length: 10 }, () => ({ x: 0, y: 0 }));
+        const cursorDots = Array.from({ length: 8 }, () => ({ x: 0, y: 0 }));
         const cursorFriction = 0.4;
         let cursorVisible = false;
         let cursorPosition = { x: 0, y: 0 };
@@ -263,6 +272,7 @@ $(document).ready(function() {
         window.addEventListener('resize', resizeCursorCanvas, { passive: true });
         resizeCursorCanvas();
 
+        let cursorAnimationId = null;
         function animateCursor() {
             cursorContext.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
             if (cursorVisible) {
@@ -272,8 +282,8 @@ $(document).ready(function() {
                     dot.x += (x - dot.x) * cursorFriction;
                     dot.y += (y - dot.y) * cursorFriction;
                     const dotColor = index % 2 === 0 ? '#0ff0fc' : '#00ff41';
-                    const dotOpacity = 1 - (index / 10);
-                    const dotSize = (10 - index) * 1.1;
+                    const dotOpacity = 1 - (index / 8);
+                    const dotSize = (8 - index) * 1.15;
                     cursorContext.globalAlpha = dotOpacity;
                     cursorContext.beginPath();
                     cursorContext.fillStyle = dotColor;
@@ -283,9 +293,19 @@ $(document).ready(function() {
                     y = dot.y;
                 });
             }
-            requestAnimationFrame(animateCursor);
+            cursorAnimationId = requestAnimationFrame(animateCursor);
         }
-        animateCursor();
+        const stopCursor = () => {
+            if (cursorAnimationId) cancelAnimationFrame(cursorAnimationId);
+            cursorAnimationId = null;
+        };
+        const startCursor = () => {
+            if (!cursorAnimationId) animateCursor();
+        };
+        document.addEventListener('visibilitychange', () => {
+            document.hidden ? stopCursor() : startCursor();
+        });
+        startCursor();
     }
 
     initializeCustomCursor();
@@ -321,10 +341,13 @@ $(document).ready(function() {
         });
     }
 
-    initializeTiltEffect(document.querySelectorAll('.project-card'), 10, 1.05);
-    initializeTiltEffect(document.querySelectorAll('.skill-item'), 15, 1.02);
+    if (!prefersReducedMotion) {
+        initializeTiltEffect(document.querySelectorAll('.project-card'), 10, 1.05);
+        initializeTiltEffect(document.querySelectorAll('.skill-item'), 15, 1.02);
+    }
 
-    document.querySelectorAll('.timeline-item').forEach((item) => {
+    if (!prefersReducedMotion) {
+        document.querySelectorAll('.timeline-item').forEach((item) => {
         let itemBounds = null;
         let animationFrame = null;
         function updateItemBounds() { itemBounds = item.getBoundingClientRect(); }
@@ -351,11 +374,12 @@ $(document).ready(function() {
         item.addEventListener('touchmove', handleTimelineMove, { passive: true });
         item.addEventListener('mouseleave', resetTimeline);
         item.addEventListener('touchend', resetTimeline);
-    });
+        });
+    }
 
     const glowingTextElement = document.querySelector('.glowing-text');
     const neonBorderElement = document.querySelector('.neon-border');
-    if (glowingTextElement && neonBorderElement) {
+    if (!prefersReducedMotion && glowingTextElement && neonBorderElement) {
         const originalText = glowingTextElement.innerText;
         const glitchCharacters = '!<>-_\\/[]{}—=+*^?________';
         let glitchAnimationId = null;
@@ -378,7 +402,7 @@ $(document).ready(function() {
     }
 
     const aboutBoxElement = document.querySelector('#about .neon-border');
-    if (aboutBoxElement) {
+    if (!prefersReducedMotion && aboutBoxElement) {
         let aboutBoxBounds = null;
         function updateAboutBoxBounds() { aboutBoxBounds = aboutBoxElement.getBoundingClientRect(); }
         function resetAboutBoxEffect() {
@@ -460,15 +484,16 @@ function initializeThreeScene() {
     const contactGroup = new THREE.Group();
     scene.add(homeGroup, scrollGroup, contactGroup);
 
+    const isLowPower = window.innerWidth < 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const renderer = new THREE.WebGLRenderer({
         antialias: window.innerWidth > 768,
         alpha: true,
-        powerPreference: "high-performance",
+        powerPreference: isLowPower ? "low-power" : "high-performance",
         precision: "lowp"
     });
 
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isLowPower ? 1.1 : 1.5));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 2.0;
@@ -496,7 +521,7 @@ function initializeThreeScene() {
     groundMesh.position.y = -8;
     scrollGroup.add(groundMesh);
 
-    const RAIN_COUNT = 300;
+    const RAIN_COUNT = isLowPower ? 120 : 220;
     const rainGeometry = new THREE.BufferGeometry();
     const rainPositions = new Float32Array(RAIN_COUNT * 3);
     const rainVelocities = new Float32Array(RAIN_COUNT);
@@ -615,8 +640,9 @@ function initializeThreeScene() {
         }, 150);
     }, { passive: true });
 
+    let animationId = null;
     function animate() {
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
         
         const elapsedTime = animationClock.getElapsedTime();
         const targetTransition = Math.min(currentScrollY / (windowHeight * 0.8), 1);
@@ -673,7 +699,17 @@ function initializeThreeScene() {
         renderer.render(scene, camera);
     }
     
-    animate();
+    const stopAnimation = () => {
+        if (animationId) cancelAnimationFrame(animationId);
+        animationId = null;
+    };
+    const startAnimation = () => {
+        if (!animationId) animate();
+    };
+    document.addEventListener('visibilitychange', () => {
+        document.hidden ? stopAnimation() : startAnimation();
+    });
+    startAnimation();
     
     window.cleanupThreeScene = function() {
         [groundGeometry, rainGeometry].forEach(geo => geo?.dispose());
