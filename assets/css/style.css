@@ -1519,7 +1519,7 @@ html {
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
   margin-top: 3rem;
   perspective: 1000px;
 }
