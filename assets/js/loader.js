@@ -1,5 +1,3 @@
-
-
 const philosophicalQuotes = [
     "A cage went in search of a bird. — Franz Kafka",
     "Man is sometimes extraordinarily, passionately, in love with suffering. — Fyodor Dostoevsky",

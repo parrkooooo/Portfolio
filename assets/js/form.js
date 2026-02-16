@@ -1,33 +1,35 @@
-
-
 export function initializeForm() {
     const contactForm = document.getElementById('contact-form');
     if (!contactForm) return;
 
     const submitButton = document.getElementById('submit-btn');
+    const formSuccess = document.getElementById('form-success');
 
-    contactForm.addEventListener('submit', async function(event) {
+    contactForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         submitButton.disabled = true;
-        submitButton.innerHTML = "Transmitting...";
+        submitButton.textContent = "Transmitting...";
 
         try {
             const response = await fetch("https://formspree.io/f/xgooljlk", {
                 method: "POST",
-                body: new FormData(this),
+                body: new FormData(contactForm),
                 headers: { 'Accept': 'application/json' }
             });
 
             if (response.ok) {
-                $('#form-success').fadeIn();
-                this.reset();
-                $(this).fadeOut();
+                if (formSuccess) formSuccess.style.display = 'block';
+                contactForm.reset();
+                contactForm.style.display = 'none';
+            } else {
+                alert("Transmission failed. Please try again.");
             }
-        } catch {
+        } catch (err) {
+            console.error(err);
             alert("Transmission failed.");
         } finally {
             submitButton.disabled = false;
-            submitButton.innerHTML = "Send Message";
+            submitButton.textContent = "Send Message";
         }
     });
 }

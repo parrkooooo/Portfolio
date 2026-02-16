@@ -25,8 +25,6 @@ export function initializeAnimations() {
 
     
     initializeGlitchText();
-
-    
     initializeSkillProgress();
 
     
